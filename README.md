@@ -2,6 +2,14 @@
 
 This Android application allows users to retrieve vehicle information from the DVLA (Driver and Vehicle Licensing Agency) database using the vehicle registration number. The app sends a request to the DVLA API and displays the retrieved information to the user.
 
+## Screenshots
+<p>
+   <img src="screenshot_1.png" alt="Screenshot" width="200" style="display:inline-block;"/>
+  <img src="screenshot2.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
+  <img src="screenshot3.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
+  <img src="screenshot4.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
+</p>
+
 ## Features
 - Input field to enter the vehicle registration number.
 - Submit button to initiate the API request.
@@ -30,15 +38,6 @@ Replace `your_api_key_here` and `your_api_key_mot_here` with your actual DVLA & 
 2. Enter Registration Number: In the main screen of the app, enter the vehicle registration number in the provided input field.
 3. Submit: Tap on the "Submit" button to initiate the request to retrieve vehicle information.
 4. View Results: Once the request is processed, the app will display the retrieved vehicle information on the screen.
-
-## Screenshots
-<p>
-   <img src="screenshot_1.png" alt="Screenshot" width="200" style="display:inline-block;"/>
-  <img src="screenshot2.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
-  <img src="screenshot3.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
-  <img src="screenshot4.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
-</p>
-
 
 
 ## Components
