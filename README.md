@@ -11,7 +11,8 @@ This Android application allows users to retrieve vehicle information from the D
 ## Usage
 ### Clone the Repository:
 Clone this repository to your local machine using the following command:
->```bash
+>
+bash
 >git clone <repository_URL>
 
 ## API Key Setup
@@ -29,6 +30,13 @@ Replace `your_api_key_here` and `your_api_key_mot_here` with your actual DVLA & 
 2. Enter Registration Number: In the main screen of the app, enter the vehicle registration number in the provided input field.
 3. Submit: Tap on the "Submit" button to initiate the request to retrieve vehicle information.
 4. View Results: Once the request is processed, the app will display the retrieved vehicle information on the screen.
+
+## Screenshots
+![Screenshot](screenshot2.png)
+![Screenshot](screenshot3.png)
+![Screenshot](screenshot4.png)
+![Screenshot](screenshot_1.png)
+
 
 ## Components
 - **ApiKeyProvider:** Provides methods to retrieve the API keys required to access the DVLA and MOT APIs.
