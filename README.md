@@ -32,10 +32,13 @@ Replace `your_api_key_here` and `your_api_key_mot_here` with your actual DVLA & 
 4. View Results: Once the request is processed, the app will display the retrieved vehicle information on the screen.
 
 ## Screenshots
-![Screenshot](screenshot2.png)
-![Screenshot](screenshot3.png)
-![Screenshot](screenshot4.png)
-![Screenshot](screenshot_1.png)
+<p>
+   <img src="screenshot_1.png" alt="Screenshot" width="200" style="display:inline-block;"/>
+  <img src="screenshot2.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
+  <img src="screenshot3.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
+  <img src="screenshot4.png" alt="Screenshot" width="200" style="display:inline-block; margin-right:10px;"/>
+</p>
+
 
 
 ## Components
