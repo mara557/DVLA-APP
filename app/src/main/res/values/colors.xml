@@ -5,4 +5,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorBlack">#FF000000</color>
     <color name="custom_light_blue">#D6EEFF</color>
+    <color name="colorGray">#808080</color>
+    <color name="colorPrimaryDark">#003366</color>
+    <color name="background_color">#F5F5F5</color>
+    <color name="primary_text">#212121</color>
+    <color name="error_color">#D32F2F</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
 </resources>

@@ -1,65 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:padding="16dp">
 
+    <!-- Title TextView -->
     <TextView
         android:id="@+id/title"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="DVLA Vehicle Information"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Error Message TextView -->
+    <TextView
+        android:id="@+id/errorMessageTextView"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        android:textColor="@color/error_color"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Loading ProgressBar -->
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="DVLA Vehicle Information"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/errorMessageTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Dynamic Layout for TextViews inside ScrollView -->
+    <ScrollView
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/loadingProgressBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Error Message TextView -->
-        <TextView
-            android:id="@+id/errorMessageTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text=""
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="16sp" />
-
-        <!-- Loading ProgressBar -->
-        <ProgressBar
-            android:id="@+id/loadingProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp" />
-
-        <!-- Dynamic Layout for TextViews -->
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/dynamicLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <LinearLayout
-                android:id="@+id/dynamicLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp" />
-
-        </ScrollView>
-
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
