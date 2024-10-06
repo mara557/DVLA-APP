@@ -1,32 +1,46 @@
 package com.mara.dvlavehicleinformation
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import com.mara.dvlavehicleinformation.adapters.MotTestsAdapter
+import com.mara.dvlavehicleinformation.models.MotTest
+import com.mara.dvlavehicleinformation.models.VehicleComment
 import org.json.JSONArray
 import org.json.JSONException
 
 class ResultsActivityMOT : AppCompatActivity() {
 
-    private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var loadingProgressBar: View
     private lateinit var errorMessageTextView: TextView
-    private lateinit var firstSectionLayout: LinearLayout
-    private lateinit var secondSectionLayout: LinearLayout
+    private lateinit var registrationTextView: TextView
+    private lateinit var makeModelTextView: TextView
+    private lateinit var fuelTypeTextView: TextView
+    private lateinit var motTestsRecyclerView: RecyclerView
+    private lateinit var refreshFab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_results_mot)
 
+        // Initialize views
         loadingProgressBar = findViewById(R.id.loadingProgressBarMOT)
         errorMessageTextView = findViewById(R.id.errorMessageTextViewMOT)
-        firstSectionLayout = findViewById(R.id.firstSectionContentLayout)
-        secondSectionLayout = findViewById(R.id.secondSectionContentLayout)
+        registrationTextView = findViewById(R.id.registrationTextView)
+        makeModelTextView = findViewById(R.id.makeModelTextView)
+        fuelTypeTextView = findViewById(R.id.fuelTypeTextView)
+        motTestsRecyclerView = findViewById(R.id.motTestsRecyclerView)
+        refreshFab = findViewById(R.id.refreshFab)
+
+        // Setup RecyclerView
+        motTestsRecyclerView.layoutManager = LinearLayoutManager(this)
+        motTestsRecyclerView.adapter = MotTestsAdapter(emptyList())
 
         val apiURL = intent.getStringExtra("apiURL")
         Log.d("API_REQUEST", "API URL from Intent: $apiURL")
@@ -34,107 +48,101 @@ class ResultsActivityMOT : AppCompatActivity() {
         apiURL?.let {
             fetchDataFromAPI(it)
         }
+
+        // Refresh Button Click Listener
+        refreshFab.setOnClickListener {
+            apiURL?.let {
+                fetchDataFromAPI(it)
+            }
+        }
     }
 
     private fun fetchDataFromAPI(apiURL: String) {
         showLoading()
 
         val apiRequestTask = VehicleInformationApiTask(this, apiURL) { response ->
-            handleApiResponse(response)
+            runOnUiThread {
+                hideLoading()
+                handleApiResponse(response)
+            }
         }
         apiRequestTask.execute()
     }
 
     private fun handleApiResponse(response: String) {
-        hideLoading()
+        if (response.isBlank()) {
+            displayErrorMessage("Empty or null API response")
+            return
+        }
 
         try {
             val jsonArray = JSONArray(response)
-            firstSectionLayout.removeAllViews()
-            secondSectionLayout.removeAllViews()
+            if (jsonArray.length() == 0) {
+                displayErrorMessage(getString(R.string.no_mot_tests_found))
+                return
+            }
+
+            val motTestsList = mutableListOf<MotTest>()
 
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
                 val registration = jsonObject.optString("registration")
-                val registrationTextView = findViewById<TextView>(R.id.registrationTextView)
                 registrationTextView.text = "Registration: $registration"
 
-                val keys = arrayOf(
-                    "make", "model", "firstUsedDate", "fuelType",
-                    "primaryColour", "vehicleId", "registrationDate", "manufactureDate",
-                    "engineSize"
-                )
+                val makeModel = "${jsonObject.optString("make")} ${jsonObject.optString("model")}"
+                makeModelTextView.text = "Make & Model: $makeModel"
 
-                for (key in keys) {
-                    val value = jsonObject.optString(key)
-                    addTextView("$key: $value", Color.BLACK, firstSectionLayout)
-                }
-                addDivider(firstSectionLayout)
+                val fuelType = jsonObject.optString("fuelType")
+                fuelTypeTextView.text = "Fuel Type: $fuelType"
 
                 val motTestsArray = jsonObject.optJSONArray("motTests")
                 motTestsArray?.let {
-                    for (j in 0 until motTestsArray.length()) {
-                        val motTestObject = motTestsArray.getJSONObject(j)
-                        val completedDate = motTestObject.optString("completedDate")
-                        val testResult = motTestObject.optString("testResult")
-                        val testNumber = motTestObject.optString("motTestNumber")
-                        val odometerValue = motTestObject.optString("odometerValue")
-                        val odometerUnit = motTestObject.optString("odometerUnit")
-                        val expiryDate = motTestObject.optString("expiryDate") // New field
-                        val odometerResultType = motTestObject.optString("odometerResultType") // New field
-                        val motTestDetails = "MOT Test Details:\n" +
-                                "Completed Date: $completedDate\n" +
-                                "Test Result: $testResult\n" +
-                                "Test Number: $testNumber\n" +
-                                "Expiry Date: $expiryDate\n" + // Include Expiry Date
-                                "Odometer Value: $odometerValue $odometerUnit\n" + // Include Odometer Unit
-                                "Odometer Result Type: $odometerResultType" // Include Odometer Result Type
-                        addTextView(motTestDetails, Color.BLUE, secondSectionLayout)
-
-                        addDivider(secondSectionLayout)
+                    for (j in 0 until it.length()) {
+                        val motTestObject = it.getJSONObject(j)
+                        val commentsList = mutableListOf<VehicleComment>()
 
                         val rfrAndCommentsArray = motTestObject.optJSONArray("rfrAndComments")
-                        rfrAndCommentsArray?.let {
-                            for (k in 0 until rfrAndCommentsArray.length()) {
-                                val rfrAndCommentsObject = rfrAndCommentsArray.getJSONObject(k)
-                                val text = rfrAndCommentsObject.optString("text")
-                                val type = rfrAndCommentsObject.optString("type")
-                                val dangerous = rfrAndCommentsObject.optBoolean("dangerous")
-                                val rfrAndCommentsDetails = "RFR and Comments:\n" +
-                                        "Text: $text\n" +
-                                        "Type: $type\n" +
-                                        "Dangerous: $dangerous"
-                                addTextView(rfrAndCommentsDetails, Color.RED, secondSectionLayout)
-                                addDivider(secondSectionLayout)
+                        rfrAndCommentsArray?.let { rfrArray ->
+                            for (k in 0 until rfrArray.length()) {
+                                val commentObject = rfrArray.getJSONObject(k)
+                                val comment = VehicleComment(
+                                    text = commentObject.optString("text"),
+                                    type = commentObject.optString("type"),
+                                    dangerous = commentObject.optBoolean("dangerous")
+                                )
+                                commentsList.add(comment)
                             }
                         }
+
+                        val motTest = MotTest(
+                            completedDate = motTestObject.optString("completedDate"),
+                            testResult = motTestObject.optString("testResult"),
+                            testNumber = motTestObject.optString("motTestNumber"),
+                            odometerValue = motTestObject.optString("odometerValue"),
+                            odometerUnit = motTestObject.optString("odometerUnit"),
+                            expiryDate = motTestObject.optString("expiryDate"),
+                            odometerResultType = motTestObject.optString("odometerResultType"),
+                            comments = commentsList // Associate comments
+                        )
+                        motTestsList.add(motTest)
                     }
                 }
             }
+
+            // Update Adapter
+            (motTestsRecyclerView.adapter as MotTestsAdapter).updateData(motTestsList)
+
         } catch (e: JSONException) {
             e.printStackTrace()
-            showErrorMessage("Error parsing JSON: ${e.message}")
+            displayErrorMessage("Error parsing JSON: ${e.message}")
             Log.e("JSON_PARSE_ERROR", "Error parsing JSON: ${e.message}")
         }
     }
 
-    private fun addTextView(text: String, color: Int, layout: LinearLayout) {
-        val textView = TextView(this)
-        textView.text = text
-        textView.setTextColor(color)
-        textView.textSize = 16f
-        layout.addView(textView)
-    }
-
-    private fun addDivider(layout: LinearLayout) {
-        val divider = View(this)
-        divider.setBackgroundColor(Color.GRAY)
-        val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            2
-        )
-        divider.layoutParams = params
-        layout.addView(divider)
+    private fun displayErrorMessage(message: String) {
+        errorMessageTextView.text = message
+        errorMessageTextView.visibility = View.VISIBLE
+        Snackbar.make(findViewById(R.id.rootLayoutMOT), message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun showLoading() {
@@ -144,10 +152,5 @@ class ResultsActivityMOT : AppCompatActivity() {
 
     private fun hideLoading() {
         loadingProgressBar.visibility = View.GONE
-    }
-
-    private fun showErrorMessage(message: String) {
-        errorMessageTextView.text = message
-        errorMessageTextView.visibility = View.VISIBLE
     }
 }

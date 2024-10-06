@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import okhttp3.*
+import com.mara.dvlavehicleinformation.R
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response  // Correct import
 import java.io.IOException
 
 class VehicleInformationApiTask(
@@ -18,14 +21,10 @@ class VehicleInformationApiTask(
     private lateinit var progressBar: ProgressBar
     private val apiKey: String = ApiKeyProvider.getApiKeyMOT(context)
 
-    init {
-        // Get the API key from the ApiKeyProvider
-    }
-
     override fun onPreExecute() {
         super.onPreExecute()
         // Show loading indicator
-        progressBar = (context as AppCompatActivity).findViewById(R.id.loadingProgressBarMOT) // Use correct ID here
+        progressBar = (context as AppCompatActivity).findViewById(R.id.loadingProgressBarMOT)
         progressBar.visibility = View.VISIBLE
     }
 
@@ -38,11 +37,11 @@ class VehicleInformationApiTask(
             .build()
 
         return try {
-            val response = client.newCall(request).execute()
+            val response: Response = client.newCall(request).execute()
             if (response.isSuccessful) {
                 response.body()?.string() ?: ""
             } else {
-                "Error: ${response.message()}"
+                "Error ${response.code()}: ${response.message()}"  // Proper usage
             }
         } catch (e: IOException) {
             e.printStackTrace()
