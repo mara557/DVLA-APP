@@ -33,7 +33,7 @@ class AskMidActivity : AppCompatActivity() {
         webView.settings.setSupportZoom(true)
 
         // Load the AskMID webpage with the new URL
-        webView.loadUrl("https://ownvehicle.askmid.com/")
+        webView.loadUrl("https://enquiry.navigate.mib.org.uk/checkyourvehicle")
 
         // Log a message to verify if the activity is being created
         Log.d("AskMidActivity", "Activity created successfully")

@@ -8,182 +8,199 @@
     android:background="@color/custom_light_blue"
     tools:context=".MainActivity">
 
-    <!-- Title TextView for DVLA Vehicle Information -->
-    <TextView
-        android:id="@+id/titleDvla"
-        android:layout_width="wrap_content"
+    <!-- Vehicle Information Section Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dvlaCard"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Vehicle Information"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="32dp"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- DVLA Registration Number Input -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/registrationInputLayoutDvla"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Registration Number"
-        app:boxBackgroundColor="@android:color/white"
-        app:boxStrokeColor="@color/colorBlack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleDvla"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTextDvla"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapCharacters"
-            android:textColor="@android:color/black"
-            android:gravity="center"
-            android:drawableLeft="@drawable/gb_flag"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <!-- Submit Button for DVLA -->
-    <Button
-        android:id="@+id/submitButtonDvla"
+            <!-- Title -->
+            <TextView
+                android:id="@+id/titleDvla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vehicle Information"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:drawableStart="@drawable/ic_car" />
+
+            <!-- Registration Number Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/registrationInputLayoutDvla"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Enter Registration Number"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="@color/colorBlack">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextTextDvla"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters"
+                    android:drawableStart="@drawable/gb_flag"
+                    android:drawablePadding="8dp" /> <!-- Add space between text and drawable -->
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/submitButtonDvla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Submit"
+                android:textColor="@android:color/white"
+                android:drawableStart="@drawable/ic_search" />
+
+            <!-- Error Message TextView -->
+            <TextView
+                android:id="@+id/errorMessageTextViewDvla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- MOT History Section Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/motCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@android:color/white"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/registrationInputLayoutDvla"
-        app:layout_constraintStart_toStartOf="@id/registrationInputLayoutDvla"
-        app:layout_constraintEnd_toEndOf="@id/registrationInputLayoutDvla" />
-
-    <!-- Loading ProgressBar for DVLA -->
-    <ProgressBar
-        android:id="@+id/loadingProgressBarDvla"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/submitButtonDvla"
-        app:layout_constraintStart_toStartOf="@id/submitButtonDvla"
-        app:layout_constraintEnd_toEndOf="@id/submitButtonDvla"
-        android:layout_marginTop="8dp" />
-
-    <!-- Error Message TextView for DVLA -->
-    <TextView
-        android:id="@+id/errorMessageTextViewDvla"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/submitButtonDvla"
-        app:layout_constraintStart_toStartOf="@id/submitButtonDvla"
-        app:layout_constraintEnd_toEndOf="@id/submitButtonDvla"
-        android:layout_marginTop="8dp" />
-
-    <!-- Title TextView for MOT History -->
-    <TextView
-        android:id="@+id/titleMot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MOT history"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/errorMessageTextViewDvla"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:layout_constraintTop_toBottomOf="@id/dvlaCard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- MOT Registration Number Input -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/registrationInputLayoutMot"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Registration Number"
-        app:boxBackgroundColor="@android:color/white"
-        app:boxStrokeColor="@color/colorBlack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleMot"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTextMot"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapCharacters"
-            android:textColor="@android:color/black"
-            android:gravity="center"
-            android:drawableLeft="@drawable/gb_flag"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <!-- Submit Button for MOT History -->
-    <Button
-        android:id="@+id/submitButtonMot"
+            <!-- Title -->
+            <TextView
+                android:id="@+id/titleMot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MOT History"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:drawableStart="@drawable/ic_clipboard" />
+
+            <!-- MOT Registration Number Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/registrationInputLayoutMot"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Enter Registration Number"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeColor="@color/colorBlack">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextTextMot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters"
+                    android:drawableStart="@drawable/gb_flag"
+                    android:drawablePadding="8dp" /> <!-- Add space between text and drawable -->
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/submitButtonMot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Submit"
+                android:textColor="@android:color/white"
+                android:drawableStart="@drawable/ic_search" />
+
+            <!-- Error Message TextView -->
+            <TextView
+                android:id="@+id/errorMessageTextViewMot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- AskMID Section Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/askMidCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@android:color/white"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/registrationInputLayoutMot"
-        app:layout_constraintStart_toStartOf="@id/registrationInputLayoutMot"
-        app:layout_constraintEnd_toEndOf="@id/registrationInputLayoutMot" />
-
-    <!-- Loading ProgressBar for MOT History -->
-    <ProgressBar
-        android:id="@+id/loadingProgressBarMot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/submitButtonMot"
-        app:layout_constraintStart_toStartOf="@id/submitButtonMot"
-        app:layout_constraintEnd_toEndOf="@id/submitButtonMot"
-        android:layout_marginTop="8dp" />
-
-    <!-- Error Message TextView for MOT History -->
-    <TextView
-        android:id="@+id/errorMessageTextViewMot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/submitButtonMot"
-        app:layout_constraintStart_toStartOf="@id/submitButtonMot"
-        app:layout_constraintEnd_toEndOf="@id/submitButtonMot"
-        android:layout_marginTop="8dp" />
-
-    <!-- Title TextView for AskMID -->
-    <TextView
-        android:id="@+id/titleAskMid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Insurance check"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/errorMessageTextViewMot"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:layout_constraintTop_toBottomOf="@id/motCard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- AskMID Button -->
-    <Button
-        android:id="@+id/askMidButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AskMID"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/titleAskMid"
-        app:layout_constraintStart_toStartOf="@id/titleAskMid"
-        app:layout_constraintEnd_toEndOf="@id/titleAskMid" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/titleAskMid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Insurance Check"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:drawableStart="@drawable/ic_insurance" />
+
+            <!-- AskMID Button -->
+            <Button
+                android:id="@+id/askMidButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Check Insurance"
+                android:textColor="@android:color/white"
+                android:drawableStart="@drawable/ic_search" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
